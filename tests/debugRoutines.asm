@@ -17,7 +17,7 @@ BEEP:
     jsr .WAIT
     deca
     beq .QUIT
-    jmp .LOOP               ;/!\ boucle infinie!
+    jmp .LOOP
 .QUIT:
     pulb
     pula
@@ -33,22 +33,4 @@ BEEP:
     jmp -
 +:
     pula
-    rts
-
-;STR_TX
-; arguments: x (first character of LF-terminated (\n) string
-; return: none
-; destroy: a
-STR_TX:
-    ldaa ,x
--:
-    ldab TRCSR
-    bitb #$20
-    beq -                    ;is transmit data register empty?
-    staa TDR
-    cmpa #"\n"
-    beq +                    ;if last character, exit
-    inx
-    bra STR_TX               ;send next character
-+:
     rts
